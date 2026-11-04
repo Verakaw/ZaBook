@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ЗА-Бронь — учебное демо бронирования загородных домов">
+  <title>ЗА-Бронь — домики за городом</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="demo-banner" role="note">
+    <span aria-hidden="true">◌</span>
+    <span>Учебное демо: бронирования сохраняются только в этом браузере. Реальной оплаты нет.</span>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="ЗА-Бронь, на главную">
+        <span class="brand-mark"><span>ЗА</span><b>-</b>Бронь</span>
+        <small>домики за городом · учебное демо</small>
+      </a>
+      <a class="header-link" href="#bookings">Мои брони <span id="booking-count" aria-label="Количество броней">0</span></a>
+    </div>
+  </header>
+
+  <main id="top" class="page-shell">
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <p class="kicker">Выходные, которые уже ждут</p>
+        <h1 id="page-title">Выберите свой домик<br><em>за бронь.</em></h1>
+        <p class="intro-copy">Смотрите территорию, сравнивайте удобства и собирайте спокойный выезд за город — без лишних звонков.</p>
+      </div>
+      <div class="intro-note" aria-label="Краткая информация">
+        <strong>8</strong>
+        <span>домиков на<br>одной поляне</span>
+      </div>
+    </section>
+
+    <div id="live-message" class="live-message" role="status" aria-live="polite"></div>
+
+    <section class="explorer" aria-labelledby="explorer-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-number">01 / территория</p>
+          <h2 id="explorer-title">Найдите место на поляне</h2>
+        </div>
+        <p class="section-hint">Нажмите на домик или выберите его в списке ниже.</p>
+      </div>
+
+      <div class="map-wrap">
+        <div class="map" id="map" aria-label="Схема территории загородных домов">
+          <img class="map-art" src="map.png" alt="Карта территории с озером, дорогами и лесными зонами">
+          <div id="map-houses"></div>
+        </div>
+        <div class="legend" aria-label="Легенда статусов">
+          <span class="legend-title">Статус дома</span>
+          <span><i class="legend-dot free"></i> Свободен</span>
+          <span><i class="legend-dot selected"></i> Выбран</span>
+          <span><i class="legend-dot busy"></i> Занят</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog-section" aria-labelledby="catalog-title">
+      <div class="section-heading catalog-heading">
+        <div>
+          <p class="section-number">02 / выбор</p>
+          <h2 id="catalog-title">Домики на сегодня</h2>
+        </div>
+        <div class="filters" aria-label="Фильтры домов">
+          <label>Вместимость
+            <select id="capacity-filter">
+              <option value="0">любая</option><option value="2">2+ гостей</option><option value="4">4+ гостей</option><option value="6">6+ гостей</option>
+            </select>
+          </label>
+          <label>Цена за ночь
+            <select id="price-filter">
+              <option value="0">любая</option><option value="5000">до 5 000 ₽</option><option value="7000">до 7 000 ₽</option><option value="9000">до 9 000 ₽</option>
+            </select>
+          </label>
+          <button class="text-button" id="reset-filters" type="button">Сбросить</button>
+        </div>
+      </div>
+      <div id="cottage-list" class="cottage-list"></div>
+    </section>
+
+    <section class="booking-layout" aria-label="Бронирование и выбранный дом">
+      <article id="cottage-card" class="cottage-card empty-card" tabindex="-1" aria-labelledby="card-title">
+        <p class="section-number">03 / детали</p>
+        <h2 id="card-title">Домик не выбран</h2>
+        <p>Выберите свободный домик на схеме или в списке, чтобы увидеть подробности и рассчитать поездку.</p>
+      </article>
+      <section id="booking-panel" class="booking-panel" aria-labelledby="booking-title">
+        <p class="section-number">04 / бронь</p>
+        <h2 id="booking-title">Соберите поездку</h2>
+        <p class="panel-intro">После подтверждения домик станет занят только в этом браузере.</p>
+        <form id="booking-form" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="guests">Гостей</label>
+              <input id="guests" name="guests" type="number" min="1" max="8" step="1" inputmode="numeric" aria-describedby="guests-hint guests-error">
+              <small id="guests-hint">От 1 до вместимости дома</small>
+              <p class="field-error" id="guests-error" role="alert"></p>
+            </div>
+            <div class="field">
+              <label for="nights">Ночей</label>
+              <input id="nights" name="nights" type="number" min="1" max="30" step="1" inputmode="numeric" aria-describedby="nights-hint nights-error">
+              <small id="nights-hint">От 1 до 30 ночей</small>
+              <p class="field-error" id="nights-error" role="alert"></p>
+            </div>
+          </div>
+          <div class="calculation" aria-live="polite"><span id="calculation-text">Выберите дом, чтобы увидеть расчёт</span><strong id="calculation-total"></strong></div>
+          <button class="primary-button" type="submit" id="submit-booking">Подтвердить бронь</button>
+        </form>
+      </section>
+    </section>
+
+    <section id="bookings" class="bookings-section" aria-labelledby="bookings-title">
+      <div class="section-heading">
+        <div><p class="section-number">05 / сохранённое</p><h2 id="bookings-title">Мои брони</h2></div>
+        <button class="text-button danger-button" id="clear-bookings" type="button">Очистить мои брони</button>
+      </div>
+      <div id="bookings-list" class="bookings-list"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><span>ЗА-Бронь</span><span>Учебная демонстрация · 2026</span></footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
